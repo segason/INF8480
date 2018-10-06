@@ -1,2 +1,2 @@
 # INF8480
-Laboratory
+Repository dedicated to lab projects for the Cloud Computing Course at Polytechnique (INF8480).
