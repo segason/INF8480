@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Set;
+import java.util.stream.Collector;
 
 import ca.polymtl.inf8480.tp1.shared.ServerInterface;
 
@@ -19,7 +21,12 @@ public class Server implements ServerInterface {
 		super();
 	}
 
-	private void run() {
+	private void run() { 
+		Collector<Entry<String, Set<String>>, ?, List<Map<String, Set<String>>>> batchesCollector =
+				unorderedBatches(100,
+						Collectors.toMap(Entry::getKey, Entry::getValue), Collectors.toList());
+		List<Map<String, Set<String>>> listofMaps = myMap.entrySet().stream()
+				.collect(batchesCollector);
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
 		}
